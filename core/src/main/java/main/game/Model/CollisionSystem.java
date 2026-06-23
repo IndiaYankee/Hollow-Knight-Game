@@ -34,12 +34,36 @@ public class CollisionSystem {
 
     public void resolve(Player player) {
         Rectangle playerHitBox = player.getPlayerHitBox();
+        float xVelocity = player.getxVelocity();
+        float yVelocity = player.getyVelocity();
         for (Rectangle rectangle: rectangles) {
             if(playerHitBox.overlaps(rectangle)) {
-                if(playerHitBox.y < rectangle.y) {
-                    player.setY(rectangle.y + rectangle.height);
+                // X axis
+                if (xVelocity > 0) {
+                    playerHitBox.x = rectangle.x - playerHitBox.width;
                 }
+                else if (xVelocity < 0) {
+                    playerHitBox.x = rectangle.x + rectangle.width;
+                }
+                player.setxVelocity(0);
+                break;
             }
         }
+        player.setX(playerHitBox.x);
+        for (Rectangle rectangle: rectangles) {
+            if (playerHitBox.overlaps(rectangle)) {
+                // Y axis
+                if(yVelocity > 0) {
+                    playerHitBox.y = rectangle.y - playerHitBox.height;
+                }
+                else if(yVelocity < 0) {
+                    player.setOnGround(true);
+                    playerHitBox.y = rectangle.y + rectangle.height;
+                }
+                player.setyVelocity(0);
+                break;
+            }
+        }
+        player.setY(playerHitBox.y);
     }
 }

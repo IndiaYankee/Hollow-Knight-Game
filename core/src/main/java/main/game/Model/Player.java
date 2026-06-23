@@ -10,6 +10,7 @@ public class Player {
     private float xVelocity;
     private float yVelocity;
     private final Rectangle playerHitBox;
+    private boolean isOnGround;
 
     public Player(Rectangle playerHitBox, float yVelocity, float xVelocity) {
         this.playerHitBox = playerHitBox;
@@ -17,10 +18,11 @@ public class Player {
         this.xVelocity = xVelocity;
         this.y = playerHitBox.y;
         this.x = playerHitBox.x;
+        this.isOnGround = false;
     }
 
     public void update(float delta) {
-        yVelocity -= 5f;
+        yVelocity -= 20 * delta;
 
         x += xVelocity * delta;
         y += yVelocity * delta;
@@ -45,6 +47,10 @@ public class Player {
         this.yVelocity = yVelocity;
     }
 
+    public void setOnGround(boolean onGround) {
+        isOnGround = onGround;
+    }
+
     public float getX() {
         return x;
     }
@@ -63,5 +69,9 @@ public class Player {
 
     public Rectangle getPlayerHitBox() {
         return playerHitBox;
+    }
+
+    public boolean isOnGround() {
+        return isOnGround;
     }
 }
