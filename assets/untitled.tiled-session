@@ -1,0 +1,27 @@
+{
+    "activeFile": "untitled.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "untitled.tmx": {
+            "scale": 0.435546875,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 625.6502242152466,
+                "y": 15672.251121076233
+            }
+        }
+    },
+    "map.height": 2000,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 3000,
+    "openFiles": [
+        "untitled.tmx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "untitled.tmx"
+    ]
+}

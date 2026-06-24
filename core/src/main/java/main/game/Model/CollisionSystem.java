@@ -34,36 +34,50 @@ public class CollisionSystem {
 
     public void resolve(Player player) {
         Rectangle playerHitBox = player.getPlayerHitBox();
-        float xVelocity = player.getxVelocity();
-        float yVelocity = player.getyVelocity();
-        for (Rectangle rectangle: rectangles) {
-            if(playerHitBox.overlaps(rectangle)) {
-                // X axis
-                if (xVelocity > 0) {
-                    playerHitBox.x = rectangle.x - playerHitBox.width;
+        player.setOnGround(false);
+
+        for (Rectangle rectangle : rectangles) {
+            if (playerHitBox.overlaps(rectangle)) {
+
+                float aCenterX = playerHitBox.x + playerHitBox.width / 2f;
+                float aCenterY = playerHitBox.y + playerHitBox.height / 2f;
+                float bCenterX = rectangle.x + rectangle.width / 2f;
+                float bCenterY = rectangle.y + rectangle.height / 2f;
+
+                float dx = aCenterX - bCenterX;
+                float dy = aCenterY - bCenterY;
+
+                float overlapX = (playerHitBox.width / 2f + rectangle.width / 2f) - Math.abs(dx);
+                float overlapY = (playerHitBox.height / 2f + rectangle.height / 2f) - Math.abs(dy);
+
+                if (overlapX < overlapY) {
+                    if (dx > 0) {
+                        playerHitBox.x = rectangle.x + rectangle.width;
+                    } else {
+                        playerHitBox.x = rectangle.x - playerHitBox.width;
+                    }
+                    player.setxVelocity(0);
+                } else {
+                    if (dy > 0) {
+                        playerHitBox.y = rectangle.y + rectangle.height;
+                        player.setJumpCount(0);
+                        player.setOnGround(true);
+                    } else {
+                        playerHitBox.y = rectangle.y - playerHitBox.height;
+                    }
+                    player.setyVelocity(0);
                 }
-                else if (xVelocity < 0) {
-                    playerHitBox.x = rectangle.x + rectangle.width;
-                }
-                player.setxVelocity(0);
-                break;
             }
         }
         player.setX(playerHitBox.x);
-        for (Rectangle rectangle: rectangles) {
-            if (playerHitBox.overlaps(rectangle)) {
-                // Y axis
-                if(yVelocity > 0) {
-                    playerHitBox.y = rectangle.y - playerHitBox.height;
-                }
-                else if(yVelocity < 0) {
-                    player.setOnGround(true);
-                    playerHitBox.y = rectangle.y + rectangle.height;
-                }
-                player.setyVelocity(0);
-                break;
-            }
-        }
         player.setY(playerHitBox.y);
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public ArrayList<Rectangle> getRectangles() {
+        return rectangles;
     }
 }

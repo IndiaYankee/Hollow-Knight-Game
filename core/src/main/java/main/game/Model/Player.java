@@ -1,16 +1,19 @@
 package main.game.Model;
 
-import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.math.Rectangle;
 
 public class Player {
+    private static final float GRAVITY = 900f;
+
     private float x;
     private float y;
     private float xVelocity;
     private float yVelocity;
     private final Rectangle playerHitBox;
     private boolean isOnGround;
+    private int jumpCount;
+    private PlayerDirection direction;
+    private PlayerState state;
 
     public Player(Rectangle playerHitBox, float yVelocity, float xVelocity) {
         this.playerHitBox = playerHitBox;
@@ -18,17 +21,19 @@ public class Player {
         this.xVelocity = xVelocity;
         this.y = playerHitBox.y;
         this.x = playerHitBox.x;
-        this.isOnGround = false;
+        this.jumpCount = 0;
+        this.direction = PlayerDirection.RIGHT;
+        this.state = PlayerState.IDLE;
     }
 
     public void update(float delta) {
-        yVelocity -= 20 * delta;
+        yVelocity -= GRAVITY * delta;
 
-        x += xVelocity * delta;
-        y += yVelocity * delta;
+        playerHitBox.x += xVelocity * delta;
+        playerHitBox.y += yVelocity * delta;
 
-        playerHitBox.x = (int) x;
-        playerHitBox.y = (int) y;
+        this.x = playerHitBox.getX();
+        this.y = playerHitBox.getY();
     }
 
     public void setX(float x) {
@@ -49,6 +54,18 @@ public class Player {
 
     public void setOnGround(boolean onGround) {
         isOnGround = onGround;
+    }
+
+    public void setJumpCount(int jumpCount) {
+        this.jumpCount = jumpCount;
+    }
+
+    public void setDirection(PlayerDirection direction) {
+        this.direction = direction;
+    }
+
+    public void setState(PlayerState state) {
+        this.state = state;
     }
 
     public float getX() {
@@ -73,5 +90,17 @@ public class Player {
 
     public boolean isOnGround() {
         return isOnGround;
+    }
+
+    public int getJumpCount() {
+        return jumpCount;
+    }
+
+    public PlayerDirection getDirection() {
+        return direction;
+    }
+
+    public PlayerState getState() {
+        return state;
     }
 }

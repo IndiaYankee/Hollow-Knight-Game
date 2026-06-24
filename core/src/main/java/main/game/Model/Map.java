@@ -12,7 +12,7 @@ public class Map {
 
     public Map() {
         mapLoader = new TmxMapLoader();
-        tileMap = mapLoader.load("baseMap.tmx");
+        tileMap = mapLoader.load("untitled.tmx");
         renderer = new OrthogonalTiledMapRenderer(tileMap);
     }
 
